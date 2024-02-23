@@ -13,8 +13,24 @@
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
-    <connect-rating></connect-rating>
-    <connect-rating disabled></connect-rating>
-    <connect-rating readonly></connect-rating>
+    <div>
+      <h2>Interactive</h2>
+      <connect-rating></connect-rating>
+    </div>
+    <div>
+      <h2>Disabled</h2>
+      <connect-rating disabled></connect-rating>
+      <h2>Readonly</h2>
+      <connect-rating readonly></connect-rating>
+    </div>
+    <div>
+      <h2>Sizes</h2>
+      <h3>Small (S)</h3>
+      <connect-rating size="small"></connect-rating>
+      <h3>Medium (M)</h3>
+      <connect-rating></connect-rating>
+      <h3>Large (L)</h3>
+      <connect-rating size="large"></connect-rating>
+    </div>
   </body>
 </html>
