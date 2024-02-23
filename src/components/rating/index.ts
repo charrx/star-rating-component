@@ -45,24 +45,19 @@ export class Rating extends LitElement {
   disabled: boolean = false;
 
   @property({ type: String })
-  size: Sizes = "large";
+  size: Sizes = "medium";
 
-  private setSelectedIconColor(value: number): string {
-    const isRated = this.rating >= value;
-    if (this.disabled && isRated) {
+  setSelectedIconColor(value: number): string {
+    const isSelected = this.rating >= value;
+    if (this.disabled && isSelected) {
       return "color: var(--rating-icon-color-disabled)";
     }
-    return isRated ? "color: var(--rating-icon-color-selected)" : "";
+    return isSelected ? "color: var(--rating-icon-color-selected)" : "";
   }
 
-  private handleRatingChange(e: Event) {
-    const target = e.target as HTMLInputElement;
+  handleRatingChange(event: Event) {
+    const target = event.target as HTMLInputElement;
     this.rating = parseInt(target.value, 10);
-    this.dispatchEvent(
-      new CustomEvent("rate-changed", {
-        detail: { rating: this.rating },
-      })
-    );
   }
 
   render() {
@@ -95,13 +90,18 @@ export class Rating extends LitElement {
             />
             <label
               for="${value}"
-              class="rating__label ${this.size}"
+              class="rating__label rating__label--${this.size}"
               style="${this.setSelectedIconColor(value)}"
             >
               ${starIcon}
             </label>
           `;
         })}
+        ${this.readonly
+          ? html`<span class="rating__value" aria-hidden="true"
+              >${this.rating.toFixed(1)}</span
+            >`
+          : ""}
       </fieldset>
     `;
   }
