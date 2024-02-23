@@ -1,6 +1,6 @@
-import { css } from "lit";
+import { CSSResultGroup, css } from "lit";
 
-export const styles = [
+export const ratingStyles: CSSResultGroup = [
   css`
     /* Host targets the shadow DOM host element of your component, 
     allowing for better encapsulation and style scoping. 
@@ -9,53 +9,68 @@ export const styles = [
 
     :host {
       /* Define the color of the stars */
-      --rating-star-color: #d0cccc;
-      --rating-star-color-selected: #f2a702;
-      --rating-star-color-disabled: #b8b8b7;
+      --rating-icon-color: #eee;
+      --rating-icon-color-selected: #f2a702;
+      --rating-icon-color-disabled: #b8b8b7;
       --rating-color-focus: #189ee3;
 
       /* Define the size of the stars */
-      --rating-star-size-small: 16px;
-      --rating-star-size-medium: 24px;
-      --rating-star-size-large: 32px;
+      --rating-icon-size-small: 16px;
+      --rating-icon-size-medium: 24px;
+      --rating-icon-size-large: 32px;
     }
 
-    .star-rating__fieldset {
+    .rating__fieldset {
       width: fit-content;
       border: none;
       display: flex;
       flex-direction: row;
+      gap: 0.5rem;
     }
 
-    .star-rating__fieldset:focus-within {
+    .rating__fieldset:focus-within {
       outline: 3px solid var(--rating-color-focus);
       border-radius: 5px;
     }
 
-    label {
-      color: var(--rating-star-color);
+    .rating__label {
+      color: var(--rating-icon-color);
+      cursor: pointer;
     }
 
-    .small {
-      width: var(--rating-star-size-small);
-      height: var(--rating-star-size-small);
+    .rating__label.small {
+      width: var(--rating-icon-size-small);
+      height: var(--rating-icon-size-small);
     }
 
-    .medium {
-      width: var(--rating-star-size-medium);
-      height: var(--rating-star-size-medium);
+    .rating__label.medium {
+      width: var(--rating-icon-size-medium);
+      height: var(--rating-icon-size-medium);
     }
 
-    .large {
-      width: var(--rating-star-size-large);
-      height: var(--rating-star-size-large);
+    .rating__label.large {
+      width: var(--rating-icon-size-large);
+      height: var(--rating-icon-size-large);
     }
 
-    // input[type="radio"] {
-    //   position: absolute;
-    //   opacity: 0;
-    //   width: 0;
-    //   height: 0;
-    // }
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    input[type="radio"]:disabled + label {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Styling for visually hidden elements */
+    .visually-hidden {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
   `,
 ];

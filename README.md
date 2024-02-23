@@ -1,1 +1,1 @@
-# Star Rating Component Documentation
+# Rating Component Documentation

@@ -1,10 +1,16 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { styles } from "./styles";
-import "../icon";
+import { ratingStyles } from "./styles";
 import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 
+//TODO:
+// 1. Add tooltip component and activate it on hover
+// 2. Write tests for the component
+// 3. Add half star functionality
+// 4. Implement read-only and disabled states
+
+// Could be a separate component
 const starIcon = html`<svg
   viewBox="0 0 24 24"
   fill="currentColor"
@@ -18,14 +24,13 @@ const starIcon = html`<svg
 type Sizes = "small" | "medium" | "large";
 
 /**
- * An example element.
- *
- * @slot - This element has a slot
- * @csspart button - The button
+ * `Rating` is a custom element that renders a star rating system.
+ * It allows users to provide a rating by selecting stars.
+ * The component can be customized with properties such as `rating`, `name`, `readonly`, `disabled`, and `size`.
  */
-@customElement(`star-rating`)
-export class StarRating extends LitElement {
-  static styles = styles;
+@customElement(`connect-rating`)
+export class Rating extends LitElement {
+  static styles = ratingStyles;
 
   @property({ type: Number })
   rating: number = 3;
@@ -40,22 +45,59 @@ export class StarRating extends LitElement {
   disabled: boolean = false;
 
   @property({ type: String })
-  size: Sizes = "small";
+  size: Sizes = "large";
+
+  private setSelectedIconColor(value: number): string {
+    const isRated = this.rating >= value;
+    if (this.disabled && isRated) {
+      return "color: var(--rating-icon-color-disabled)";
+    }
+    return isRated ? "color: var(--rating-icon-color-selected)" : "";
+  }
+
+  private handleRatingChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.rating = parseInt(target.value, 10);
+    this.dispatchEvent(
+      new CustomEvent("rate-changed", {
+        detail: { rating: this.rating },
+      })
+    );
+  }
 
   render() {
     return html`
-      <fieldset class="star-rating__fieldset" role="radiogroup">
-        <input type="radio" name="rating" checked />
-        ${map(range(1, 5 + 1), (val) => {
+      <fieldset
+        class="rating__fieldset"
+        role="radiogroup"
+        aria-hidden="${this.readonly}"
+      >
+        <legend class="visually-hidden">Rating</legend>
+        <input
+          type="radio"
+          name="rating"
+          value="0"
+          checked
+          @change="${this.handleRatingChange}"
+          ?disabled="${this.disabled || this.readonly}"
+        />
+        ${map(range(1, 5 + 1), (value) => {
           return html`
             <input
               type="radio"
               name="${this.name}"
-              id="${val}"
-              value="${val}"
-              ?checked="${this.rating === val}"
+              id="${value}"
+              value="${value}"
+              @change="${this.handleRatingChange}"
+              aria-label="${value} stars"
+              ?checked="${this.rating >= value}"
+              ?disabled="${this.disabled || this.readonly}"
             />
-            <label for="${val}" class="star-rating__label ${this.size}">
+            <label
+              for="${value}"
+              class="rating__label ${this.size}"
+              style="${this.setSelectedIconColor(value)}"
+            >
               ${starIcon}
             </label>
           `;
@@ -67,6 +109,6 @@ export class StarRating extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "star-rating": StarRating;
+    "connect-rating": Rating;
   }
 }
