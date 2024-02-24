@@ -17,6 +17,7 @@ export const ratingStyles: CSSResultGroup = [
 
     .rating__fieldset {
       width: fit-content;
+      position: relative;
       border: none;
       display: flex;
       align-items: center;
@@ -28,7 +29,12 @@ export const ratingStyles: CSSResultGroup = [
       border-radius: 5px;
     }
 
+    .rating__fieldset:hover > connect-tooltip {
+      --tooltip-visibility: visible;
+    }
+
     .rating__label {
+      position: relative;
       color: var(--rating-icon-color);
       cursor: pointer;
     }
@@ -46,6 +52,10 @@ export const ratingStyles: CSSResultGroup = [
     .rating__label--large {
       width: var(--rating-icon-size-large);
       height: var(--rating-icon-size-large);
+    }
+
+    .rating__label:hover > connect-tooltip {
+      --tooltip-visibility: visible;
     }
 
     .rating__value {
