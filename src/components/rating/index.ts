@@ -5,10 +5,8 @@ import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 
 //TODO:
-// 1. Add tooltip component and activate it on hover
 // 2. Write tests for the component
 // 3. Add half star functionality
-// 4. Implement read-only and disabled states
 
 type Sizes = "small" | "medium" | "large";
 
@@ -56,13 +54,15 @@ export class Rating extends LitElement {
         role="radiogroup"
         aria-hidden="${this.readonly}"
       >
-        <legend class="visually-hidden">Rating</legend>
+        <legend class="visually-hidden">Provide your rating</legend>
         <input
           type="radio"
           name="rating"
           value="0"
           checked
           @change="${this.handleRatingChange}"
+          aria-hidden="true"
+          aria-label="Selection cleared"
           ?disabled="${this.disabled || this.readonly}"
         />
         ${map(range(1, 5 + 1), (value) => {
