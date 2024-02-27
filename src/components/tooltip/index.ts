@@ -7,7 +7,12 @@ export class Tooltip extends LitElement {
   static styles = tooltipStyles;
 
   @property({ type: Number })
-  rating: number = 0;
+  declare rating: number;
+
+  constructor() {
+    super();
+    this.rating = 0;
+  }
 
   render() {
     return html`<span aria-hidden="true" class="tooltip">
