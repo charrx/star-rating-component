@@ -12,7 +12,7 @@ describe("Rating", () => {
     expect(el.size).to.equal("medium");
   });
 
-  it("updates the rating on star click when not readonly or disabled", async function () {
+  it("updates the rating on icon click when not readonly or disabled", async function () {
     const el = await fixture<Rating>(html`<connect-rating></connect-rating>`);
     await el.updateComplete;
     const fourthIcon =
