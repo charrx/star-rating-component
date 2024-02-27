@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 
-// Define the custom element for the star icon
 @customElement("connect-icon")
 export class Icon extends LitElement {
   render() {
