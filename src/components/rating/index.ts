@@ -5,7 +5,6 @@ import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 
 //TODO:
-// 2. Write tests for the component
 // 3. Add half star functionality
 
 type Sizes = "small" | "medium" | "large";
@@ -20,31 +19,27 @@ export class Rating extends LitElement {
   static styles = ratingStyles;
 
   @property({ type: Number })
-  rating: number = 3;
+  declare rating: number;
 
   @property({ type: String })
-  name?: string = "rating";
+  declare name?: string;
 
   @property({ type: Boolean })
-  readonly?: boolean = false;
+  declare readonly?: boolean;
 
   @property({ type: Boolean })
-  disabled?: boolean = false;
+  declare disabled?: boolean;
 
   @property({ type: String })
-  size?: Sizes = "medium";
+  declare size?: Sizes;
 
-  setSelectedIconColor(value: number): string {
-    const isSelected = this.rating >= value;
-    if (this.disabled && isSelected) {
-      return "color: var(--rating-icon-color-disabled)";
-    }
-    return isSelected ? "color: var(--rating-icon-color-selected)" : "";
-  }
-
-  handleRatingChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.rating = parseInt(target.value, 10);
+  constructor() {
+    super();
+    this.rating = 3;
+    this.name = "rating";
+    this.readonly = false;
+    this.disabled = false;
+    this.size = "medium";
   }
 
   render() {
@@ -52,7 +47,8 @@ export class Rating extends LitElement {
       <fieldset
         class="rating__fieldset"
         role="radiogroup"
-        aria-hidden="${this.readonly}"
+        ?disabled="${this.disabled || this.readonly}"
+        @keydown="${this.handleKeyDown}"
       >
         <legend class="visually-hidden">Provide your rating</legend>
         <input
@@ -63,7 +59,6 @@ export class Rating extends LitElement {
           @change="${this.handleRatingChange}"
           aria-hidden="true"
           aria-label="Selection cleared"
-          ?disabled="${this.disabled || this.readonly}"
         />
         ${map(range(1, 5 + 1), (value) => {
           return html`
@@ -73,9 +68,8 @@ export class Rating extends LitElement {
               id="${value}"
               value="${value}"
               @change="${this.handleRatingChange}"
-              aria-label="${value} stars"
+              aria-label="Rating ${value}"
               ?checked="${this.rating >= value}"
-              ?disabled="${this.disabled || this.readonly}"
             />
             <label
               for="${value}"
@@ -92,6 +86,41 @@ export class Rating extends LitElement {
           : ""}
       </fieldset>
     `;
+  }
+
+  setSelectedIconColor(value: number): string {
+    const isSelected = this.rating >= value;
+    if (this.disabled && isSelected) {
+      return "color: var(--rating-icon-color-disabled)";
+    }
+    return isSelected ? "color: var(--rating-icon-color-selected)" : "";
+  }
+
+  handleRatingChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.rating = parseInt(target.value, 10);
+  }
+
+  handleKeyDown(event: KeyboardEvent) {
+    if (this.readonly || this.disabled) return;
+
+    const maxRating = 5; // Could have had a maxRating property to increase flexibility
+    const minRating = 1;
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        this.rating = this.rating < maxRating ? this.rating + 1 : minRating;
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        this.rating = this.rating > minRating ? this.rating - 1 : maxRating;
+        break;
+      default:
+        return;
+    }
+
+    this.requestUpdate();
   }
 }
 
