@@ -1,13 +1,15 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import { iconStyles } from "./styles";
 
 @customElement("connect-icon")
 export class Icon extends LitElement {
+  static styles = iconStyles;
   render() {
     return html`
       <svg
         viewBox="0 0 24 24"
-        fill="currentColor"
+        fill="var(--icon-color)"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
