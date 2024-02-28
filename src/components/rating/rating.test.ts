@@ -50,14 +50,14 @@ describe("Rating", () => {
 
     el.rating = 3;
     el.disabled = false;
-    expect(el.setSelectedIconColor(4)).to.equal("");
-    expect(el.setSelectedIconColor(3)).to.equal(
-      "color: var(--rating-icon-color-selected)"
+    expect(el.setIconColor(4)).to.equal("");
+    expect(el.setIconColor(3)).to.equal(
+      "--icon-color: var(--rating-icon-color-selected)"
     );
 
     el.disabled = true;
-    expect(el.setSelectedIconColor(3)).to.equal(
-      "color: var(--rating-icon-color-disabled)"
+    expect(el.setIconColor(3)).to.equal(
+      "--icon-color: var(--rating-icon-color-disabled)"
     );
   });
 });

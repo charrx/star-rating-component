@@ -3,13 +3,12 @@ import { CSSResultGroup, css } from "lit";
 export const ratingStyles: CSSResultGroup = [
   css`
     :host {
-      /* Define the color of the stars */
-      --rating-icon-color: #eee;
+      /* Define the color of the icons */
       --rating-icon-color-selected: #ffd500;
-      --rating-icon-color-disabled: #b8b8b7;
+      --rating-icon-color-disabled: #9f9f9f;
       --rating-color-focus: #189ee3;
 
-      /* Define the size of the stars */
+      /* Define the size of the icons */
       --rating-icon-size-small: 16px;
       --rating-icon-size-medium: 24px;
       --rating-icon-size-large: 32px;
@@ -34,8 +33,8 @@ export const ratingStyles: CSSResultGroup = [
     }
 
     .rating__label {
+      display: inline-block;
       position: relative;
-      color: var(--rating-icon-color);
       cursor: pointer;
     }
 
@@ -58,6 +57,16 @@ export const ratingStyles: CSSResultGroup = [
       --tooltip-visibility: visible;
     }
 
+    .rating__icon--half {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      display: block;
+      width: 50%;
+      height: 100%;
+    }
+
     .rating__value {
       font-size: 1.25rem;
       font-weight: bold;
@@ -75,12 +84,15 @@ export const ratingStyles: CSSResultGroup = [
       pointer-events: none;
     }
 
-    /* Styling for visually hidden elements */
-    .visually-hidden {
+    .sr-only {
+      clip: rect(1px, 1px, 1px, 1px);
+      clip-path: inset(50%);
+      height: 1px;
+      width: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
       position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
     }
   `,
 ];
