@@ -39,15 +39,33 @@ export class Rating extends LitElement {
     this.size = "medium";
   }
 
+  /**
+   * Handles the change event to update the rating value.
+   * @param event - The change event
+   * @returns void
+   * @internal
+   */
   handleRatingChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.rating = parseInt(target.value, 10);
   }
 
+  /**
+   * Determines whether to display a half icon based on the rating value and the component's state.
+   * @param value - The rating value
+   * @returns A boolean value
+   * @internal
+   */
   shouldDisplayHalfIcon(value: number): boolean {
     return !!this.readonly && this.rating > value - 1 && this.rating < value;
   }
 
+  /**
+   * Sets the color of the rating icon based on the rating value and the component's state.
+   * @param value - The rating value
+   * @returns The CSS custom property value
+   * @internal
+   */
   setIconColor(value: number): string {
     const isSelected = this.rating >= value;
     if (this.disabled && isSelected) {
@@ -56,6 +74,12 @@ export class Rating extends LitElement {
     return isSelected ? "--icon-color: var(--rating-icon-color-selected)" : "";
   }
 
+  /**
+   * Handles the keydown event to allow users to navigate the rating using the keyboard.
+   * @param event - The keyboard event
+   * @returns void
+   * @internal
+   */
   handleKeyDown(event: KeyboardEvent) {
     if (this.readonly || this.disabled) return;
 
@@ -78,6 +102,12 @@ export class Rating extends LitElement {
     this.requestUpdate();
   }
 
+  /**
+   * Renders the rating icon based on the rating value and the component's state.
+   * @param value - The rating value
+   * @returns A template result
+   * @internal
+   */
   renderRatingIcon(value: number) {
     const isSelected = this.rating >= value;
     const iconColor = this.setIconColor(value);

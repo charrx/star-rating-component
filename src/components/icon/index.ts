@@ -2,6 +2,9 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { iconStyles } from "./styles";
 
+/**
+ * `Icon` is a custom element that renders a icon.
+ */
 @customElement("connect-icon")
 export class Icon extends LitElement {
   static styles = iconStyles;

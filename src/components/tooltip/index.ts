@@ -2,6 +2,10 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { tooltipStyles } from "./styles";
 
+/**
+ * `Tooltip` is a custom element that renders a tooltip with a rating value.
+ * It displays the rating value when the user hovers over the rating component.
+ */
 @customElement(`connect-tooltip`)
 export class Tooltip extends LitElement {
   static styles = tooltipStyles;
